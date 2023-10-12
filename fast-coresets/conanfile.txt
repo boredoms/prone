@@ -1,0 +1,12 @@
+# Docs at https://docs.conan.io/en/latest/reference/conanfile_txt.html
+
+[requires]
+benchmark/1.7.1
+blaze/3.8
+catch2/2.13.9
+cli11/2.2.0
+spdlog/1.10.0
+openblas/0.3.20
+
+[generators]
+cmake_find_package_multi
