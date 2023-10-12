@@ -6,6 +6,7 @@
 
 #include "linalg.hpp"
 
+// TODO move this out into its own file
 struct k_means_result {
   std::vector<int> centers;
   std::vector<double> distances;
