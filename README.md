@@ -2,7 +2,7 @@
 
 This repository contains the code for the `PRONE` paper. It is currently undergoing rewrites.
 
-A working implementation of the algorithm, which is what was used for all the experiments in the paper is can be found in the `fast-coresets` directory. It depends on `CMake`, `conan` and the `blaze` library being installed on the system.
+A working implementation of the algorithm, which is what was used for all the experiments in the paper is can be found in the `fast-coresets` directory. It depends on `CMake`, `conan` and the `blaze` library being installed on the system. Unfortunately, conan 2.x.x is not compatible with the setup of CMake that is being used, so it might be tricky to build the submitted code.
 
 ** Future work
 

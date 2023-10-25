@@ -1,8 +1,8 @@
 # Fast k-Means Clustering
 
-This repository contains the code for the submission.
+This repository contains the code for the subsision.
 
-Building uses the conan build system and CMake
+Building uses the conan build system, version 1.x.x and CMake.
 
 Builds can be configured using `ccmake -S . -B build`, `cmake --build build` then builds the utility, with the binary placed in ./build/src/corset
 
