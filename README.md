@@ -1,0 +1,13 @@
+* `PRONE` (PRojected ONE-dimensional clustering)
+
+This repository contains the code for the `PRONE` paper. It is currently undergoing rewrites.
+
+A working implementation of the algorithm, which is what was used for all the experiments in the paper is can be found in the `fast-coresets` directory. It depends on `CMake`, `conan` and the `blaze` library being installed on the system.
+
+** Future work
+
+This repository will contain a cleaned up implementation of our algorithm as a Python pacakge to facilitate its use in the wider data science community.
+
+** Citing 
+
+TBD
