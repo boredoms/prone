@@ -8,6 +8,8 @@ A working implementation of the algorithm, which is what was used for all the ex
 
 This repository will contain a cleaned up implementation of our algorithm as a Python pacakge to facilitate its use in the wider data science community.
 
+Additionally, it will contain a command line utility that can be used as a stand-alone tool to cluster datasets.
+
 ** Citing 
 
 TBD
