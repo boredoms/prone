@@ -4,7 +4,7 @@ This repository contains a ready to use implementation of the `PRONE` algorithm 
 
 It can be installed and used in python using `pip`. The dependencies are `numpy` and `cython`. To run the tests for the C++ code, you need to have `CMake` installed. 
 
-Note that this reference implementation is not what was used in the experiments of the paper, the code for this can be fonud in an older commit here.
+Note that this reference implementation is not what was used in the experiments of the paper, the code for this can be fonud in an older commit [here](https://github.com/boredoms/prone/tree/a2050db042315a9f59337227ddd8175778be72b7).
 
 ## Usage
 
