@@ -17,7 +17,8 @@ In the next version, we will add a reference coreset construction.
 ## Citing 
 
 If you use this library in your own research, please cite our NeurIPS paper (currently this is the preprint, as the proceedings are not out yet January 5th, 2024): 
-```@article{charikar2023simple,
+```
+@article{charikar2023simple,
   title={Simple, Scalable and Effective Clustering via One-Dimensional Projections},
   author={Charikar, Moses and Henzinger, Monika and Hu, Lunjia and V{\"o}tsch, Maxmilian and Waingarten, Erik},
   journal={arXiv preprint arXiv:2310.16752},
