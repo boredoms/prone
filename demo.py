@@ -1,5 +1,9 @@
 import numpy as np
-from prone import prone
+import itertools
+
+from prone import prone, coreset
+
+from sklearn.cluster import k_means
 
 import time
 from os.path import exists
@@ -39,7 +43,7 @@ if not exists('datasets/bio_train.dat'):
 
 print("Reading dataset.")
 X = np.genfromtxt('datasets/bio_train.dat', delimiter='\t')
-k = 1000
+k = 25
 
 print("Clustering the dataset.")
 start = time.time()
@@ -48,3 +52,27 @@ end = time.time()
 
 print(f'Found {k} centers in {end - start}s')
 print(centers)
+
+coreset_points = 1000
+
+print('Coreset: ')
+points, weights = coreset(X, k, coreset_points)
+
+print(f'Computed coreset with {coreset_points}')
+for point in itertools.islice(zip(points, weights), 25):
+    print(point)
+
+print(f'Clustering full dataset')
+_, _, inertia = k_means(X, k, n_init='auto')
+print(f'Cluster cost: {inertia}')
+
+print('Clustering coreset')
+X_coreset = X[points]
+
+centroids, _, inertia = k_means(X_coreset, k, n_init='auto', sample_weight=weights)
+print(f'Cost of clusters on coreset {inertia}')
+
+_, _, inertia = k_means(X, k, init=centroids, max_iter=1)
+
+print(f'Actual cluster cost: {inertia}')
+
