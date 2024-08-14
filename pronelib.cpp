@@ -1,7 +1,7 @@
 #include "pronelib.hpp"
 
 #include <algorithm>
-#include <iostream>
+#include <cstdio>
 #include <numeric>
 #include <vector>
 
@@ -106,11 +106,11 @@ class sampler {
    * Function for debugging to print the current D^2 values of the leaves.
    */
   void print_d_squared() const {
-    std::cout << "D2 distribution: " << std::endl;
+    printf("D2 distribution: \n");
     for (int i = leaf_start; i < leaf_start + n; i++) {
-      std::cout << m_tree[i] << " ";
+      printf("%f ", m_tree[i]);
     }
-    std::cout << std::endl;
+    printf("\n");
   }
 
  private:
@@ -225,5 +225,71 @@ void ProneKernel::run(double *projected_data, int n, int k, int *centers,
   // maybe there's a way to do this inplace?
   for (int i = 0; i < n; i++) {
     assignments[idx[i]] = perm_assignments[i];
+  }
+}
+
+double distance(double *dataset, int d, int x, int y) {
+  double distance = 0;
+
+  for (int i = 0; i < d; i++) {
+    double difference = dataset[d * x + i] - dataset[d * y + i];
+
+    distance += difference * difference;
+  }
+
+  return distance;
+}
+
+void ProneKernel::coreset(double *dataset, int n, int d, int *centers, int k,
+                          int *assignments, int coreset_size,
+                          int *coreset_indices, double *coreset_weights) {
+  // compute the distances / average costs
+  std::vector<double> distances(n, 0);
+  std::vector<int> cluster_sizes(k, 0);
+  std::vector<double> cluster_costs(k, 0);
+
+  double average_cost = 0.0;
+
+  for (int i = 0; i < n; i++) {
+    auto center_id = assignments[i];
+
+    distances[i] = distance(dataset, d, i, center_id);
+
+    average_cost += distances[i];
+
+    cluster_sizes[center_id]++;
+
+    cluster_costs[center_id] += distances[i];
+  }
+
+  double const ALPHA = 16 * (std::log(k) + 2);
+  average_cost = average_cost / n;
+  double leading_coefficient = ALPHA / average_cost;
+
+  std::vector<double> sensitivity_precomp(k, 0);
+
+  for (int i = 0; i < k; i++) {
+    sensitivity_precomp[i] =
+        (2 * ALPHA * cluster_costs[i]) / (average_cost * cluster_sizes[i]) +
+        (4.0 * n) / cluster_sizes[i];
+  }
+
+  std::vector<double> sensitivity(n, 0);
+
+  for (int i = 0; i < n; i++) {
+    sensitivity[i] = leading_coefficient * distances[i] +
+                     sensitivity_precomp[assignments[i]];
+  }
+
+  double total_sensitivity =
+      std::reduce(sensitivity.begin(), sensitivity.end());
+
+  std::discrete_distribution<> distribution(sensitivity.begin(),
+                                            sensitivity.end());
+
+  for (auto i = 0; i < coreset_size; i++) {
+    coreset_indices[i] = distribution(random_source);
+    coreset_weights[i] =
+        total_sensitivity / (sensitivity[coreset_indices[i]] * coreset_size);
   }
 }

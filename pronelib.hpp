@@ -19,6 +19,10 @@ class ProneKernel {
   void run(double *projected_data, int n, int k, int *centers,
            int *assignments);
 
+  void coreset(double *dataset, int n, int d, int *centers, int k,
+               int *assignments, int coreset_size, int *coreset_indices,
+               double *coreset_weights);
+
  private:
   std::mt19937 random_source;
 };
